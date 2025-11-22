@@ -1,0 +1,280 @@
+name: Build and Deploy Master Template
+
+# 触发器：
+# - push 到 main：发布最新模板到所有站点（批量）
+# - 手动触发（workflow_dispatch）：可选择仅部署到指定站点
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      target_site_path:
+        description: "可选：只部署到某一个站点的绝对路径 (例如 /www/wwwroot/example.com)"
+        required: false
+        type: string
+      target_site_url:
+        description: "可选：该站点的完整站点地址 (例如 https://example.com) 用于生成 sitemap"
+        required: false
+        type: string
+
+jobs:
+  # --- 作业 1: 构建 React/Vite 应用 ---
+  build:
+    name: 1. Build Vite Project
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm' # 缓存 npm 包以加快速度
+
+      - name: Install Dependencies
+        # npm ci 是 CI/CD 的标准，它比 install 更快更严格 [7]
+        run: npm ci 
+
+      - name: Build Production App
+        # 运行 build 脚本 (在 package.json 中定义) [8]
+        run: npm run build # 这会创建./dist 文件夹
+
+      - name: Upload Build Artifact
+        # 将./dist 文件夹保存为“产物”，以便下一个作业可以使用它
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-build-dist
+          path: ./dist
+
+  # --- 作业 2: 将构建产物部署到所有站点 ---
+  deploy:
+    name: 2. Deploy to Baota Server
+    needs: build # 确保此作业在 'build' 作业成功后才运行
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-${{ matrix.site.url }}
+      cancel-in-progress: true
+
+    # --- 关键：使用 Matrix 策略批量部署 ---
+    # 在这里手动维护您所有站点的“服务器绝对路径”
+    strategy:
+      matrix:
+        site:
+          # 运行 'create_site.py' 后，您需要来这里添加新站点的路径和域名
+          - { path: /www/wwwroot/voicezo.com,  url: https://voicezo.com }
+          - { path: /www/wwwroot/melodzy.com,  url: https://melodzy.com }
+          - { path: /www/wwwroot/munchzo.com,  url: https://munchzo.com }
+          - { path: /www/wwwroot/earthzo.com,  url: https://earthzo.com }
+          - { path: /www/wwwroot/laughzo.com,  url: https://laughzo.com }
+
+
+    steps:
+      - name: Checkout Code (for seeding config.json)
+        uses: actions/checkout@v5
+
+      - name: Download Build Artifact
+        # 下载 'build' 作业保存的./dist 文件夹
+        uses: actions/download-artifact@v4
+        with:
+          name: vite-build-dist
+          path: ./dist
+
+      - name: Setup Node.js 18 (for sitemap generation)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.BAOTA_SSH_PRIVATE_KEY }}
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.BAOTA_SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.BAOTA_SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Upload generated config.json for site (single)
+        run: |
+          set -e
+          DOMAIN=$(basename "${{ inputs.target_site_path }}")
+          if [ -n "${{ inputs.target_site_url }}" ]; then
+            DOMAIN=$(echo "${{ inputs.target_site_url }}" | sed -E 's#https?://##' | cut -d'/' -f1)
+          fi
+          LOCAL_CFG="generated-configs/${DOMAIN}/config.json"
+          ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "mkdir -p ${{ inputs.target_site_path }}"
+          if [ -f "$LOCAL_CFG" ]; then
+            rsync -avzr "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ inputs.target_site_path }}/config.json
+          else
+            echo "Generated config not found: $LOCAL_CFG"
+          fi
+
+      - name: Upload generated config.json for site
+        run: |
+          set -e
+          DOMAIN=$(basename "${{ matrix.site.path }}")
+          LOCAL_CFG="generated-configs/${DOMAIN}/config.json"
+          ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "mkdir -p ${{ matrix.site.path }}"
+          if [ -f "$LOCAL_CFG" ]; then
+            rsync -avzr "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ matrix.site.path }}/config.json
+          else
+            echo "Generated config not found: $LOCAL_CFG"
+          fi
+
+      - name: Read remote config.json (if present) and export env
+        run: |
+          set -e
+          REMOTE_PATH="${{ matrix.site.path }}"/config.json
+          CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
+          if [ -n "$CONFIG_CONTENT" ]; then
+            echo "Remote config.json found"
+            node -e '
+              const fs = require("fs")
+              const cfg = JSON.parse(process.env.CONFIG_CONTENT)
+              const basic = cfg.basic || {}
+              const envs = {
+                SITE_URL: process.env.SITE_URL_IN || "",
+                strapi_url: basic.strapi_url || "",
+                strapi_site_slug: basic.strapi_site_slug || ""
+              }
+              for (const [k,v] of Object.entries(envs)) {
+                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
+              }
+            ' GITHUB_ENV="$GITHUB_ENV" CONFIG_CONTENT="$CONFIG_CONTENT" SITE_URL_IN="${{ matrix.site.url }}"
+          else
+            echo "Remote config.json not found, fallback to public/config.json"
+            node -e '
+              const fs = require("fs")
+              const cfg = JSON.parse(fs.readFileSync("public/config.json","utf8"))
+              const basic = cfg.basic || {}
+              const envs = {
+                SITE_URL: process.env.SITE_URL_IN || "",
+                strapi_url: basic.strapi_url || "",
+                strapi_site_slug: basic.strapi_site_slug || ""
+              }
+              for (const [k,v] of Object.entries(envs)) {
+                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
+              }
+            ' GITHUB_ENV="$GITHUB_ENV" SITE_URL_IN="${{ matrix.site.url }}"
+          fi
+
+      - name: Generate sitemap.xml and robots.txt
+        run: node scripts/generate-sitemap.mjs
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+          strapi_url: ${{ env.strapi_url }}
+          strapi_site_slug: ${{ env.strapi_site_slug }}
+          STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+
+      - name: Deploy to ${{ matrix.site.path }} via rsync
+        run: |
+          rsync -rlDz \
+            --delete \
+            --omit-dir-times \
+            --exclude='config.json' \
+            --exclude='.user.ini' \
+            --exclude='.well-known/' \
+            --exclude='logs/' \
+            --exclude='ssl/' \
+            ./dist/ ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ matrix.site.path }}
+
+      
+
+  # --- 作业 3: 仅部署到一个指定站点（手动触发用） ---
+  deploy_single:
+    name: 3. Deploy Single Site (Manual)
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.target_site_path != '' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code (for seeding config.json)
+        uses: actions/checkout@v5
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vite-build-dist
+          path: ./dist
+
+      - name: Setup Node.js 18 (for sitemap generation)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.BAOTA_SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.BAOTA_SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Read remote config.json (if present) and export env
+        run: |
+          set -e
+          REMOTE_PATH="${{ inputs.target_site_path }}"/config.json
+          CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
+          if [ -n "$CONFIG_CONTENT" ]; then
+            echo "Remote config.json found"
+            node -e '
+              const fs = require("fs")
+              const cfg = JSON.parse(process.env.CONFIG_CONTENT)
+              const basic = cfg.basic || {}
+              const envs = {
+                SITE_URL: process.env.SITE_URL_IN || "",
+                strapi_url: basic.strapi_url || "",
+                strapi_site_slug: basic.strapi_site_slug || ""
+              }
+              for (const [k,v] of Object.entries(envs)) {
+                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
+              }
+            ' GITHUB_ENV="$GITHUB_ENV" CONFIG_CONTENT="$CONFIG_CONTENT" SITE_URL_IN="${{ inputs.target_site_url }}"
+          else
+            echo "Remote config.json not found, fallback to public/config.json"
+            node -e '
+              const fs = require("fs")
+              const cfg = JSON.parse(fs.readFileSync("public/config.json","utf8"))
+              const basic = cfg.basic || {}
+              const envs = {
+                SITE_URL: process.env.SITE_URL_IN || "",
+                strapi_url: basic.strapi_url || "",
+                strapi_site_slug: basic.strapi_site_slug || ""
+              }
+              for (const [k,v] of Object.entries(envs)) {
+                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
+              }
+            ' GITHUB_ENV="$GITHUB_ENV" SITE_URL_IN="${{ inputs.target_site_url }}"
+          fi
+
+      - name: Generate sitemap.xml and robots.txt (if target_site_url provided)
+        if: ${{ inputs.target_site_url != '' }}
+        run: node scripts/generate-sitemap.mjs
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+          strapi_url: ${{ env.strapi_url }}
+          strapi_site_slug: ${{ env.strapi_site_slug }}
+          STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+
+      - name: Deploy to ${{ inputs.target_site_path }} via rsync
+        run: |
+          rsync -rlDz \
+            --delete \
+            --omit-dir-times \
+            --exclude='config.json' \
+            --exclude='.user.ini' \
+            --exclude='.well-known/' \
+            --exclude='logs/' \
+            --exclude='ssl/' \
+            ./dist/ ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ inputs.target_site_path }}

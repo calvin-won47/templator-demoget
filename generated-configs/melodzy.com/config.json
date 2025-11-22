@@ -1,0 +1,124 @@
+{
+  "basic": {
+    "app_name": "Melodyssey",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "melodzy",
+    "seo": {
+      "title": "Discover Your Next Favorite Track with Melodyssey",
+      "description": "Join Melodyssey, the ultimate music discovery and streaming platform. Explore new artists, genres, and playlists tailored just for you.",
+      "keywords": "music discovery, streaming, playlists, artists, genres"
+    },
+    "hero": {
+      "slogan": "Your Journey Through Sound Starts Here",
+      "description": "Dive into a world of music with personalized recommendations and curated playlists that resonate with your vibe."
+    }
+  },
+  "extra": {
+    "header": {
+      "navigation": [
+        "Home",
+        "Features",
+        "Blog",
+        "Pricing",
+        "Contact"
+      ],
+      "cta": "Get Started"
+    },
+    "hero": {
+      "background_image": "url('/images/hero-bg.jpg')",
+      "button_text": "Explore Now"
+    },
+    "blog": {
+      "latest_posts": [
+        {
+          "title": "Top 10 Emerging Artists to Watch",
+          "link": "/blog/emerging-artists"
+        },
+        {
+          "title": "The Evolution of Music Streaming",
+          "link": "/blog/music-streaming"
+        }
+      ]
+    },
+    "features": [
+      {
+        "title": "Personalized Recommendations",
+        "description": "Get music suggestions tailored to your taste."
+      },
+      {
+        "title": "Curated Playlists",
+        "description": "Enjoy playlists crafted by music experts."
+      },
+      {
+        "title": "Seamless Streaming",
+        "description": "Stream high-quality music without interruptions."
+      }
+    ],
+    "how_it_works": {
+      "steps": [
+        "Sign up for free",
+        "Create your profile",
+        "Start discovering new music"
+      ]
+    },
+    "testimonials": [
+      {
+        "name": "Alex Johnson",
+        "feedback": "Melodyssey transformed the way I discover music!"
+      },
+      {
+        "name": "Emily Davis",
+        "feedback": "The playlists are always spot on!"
+      }
+    ],
+    "gallery": {
+      "images": [
+        "url('/images/gallery1.jpg')",
+        "url('/images/gallery2.jpg')",
+        "url('/images/gallery3.jpg')"
+      ]
+    },
+    "cta": {
+      "text": "Join Melodyssey Today",
+      "button_text": "Sign Up Now"
+    },
+    "stats": {
+      "users": "500,000+",
+      "tracks": "10 million+",
+      "playlists": "1 million+"
+    },
+    "pricing": {
+      "plans": [
+        {
+          "name": "Free",
+          "features": [
+            "Ad-supported streaming",
+            "Basic recommendations"
+          ],
+          "price": "$0"
+        },
+        {
+          "name": "Premium",
+          "features": [
+            "Ad-free experience",
+            "Advanced recommendations",
+            "Offline listening"
+          ],
+          "price": "$9.99/month"
+        }
+      ]
+    },
+    "footer": {
+      "links": [
+        "Privacy Policy",
+        "Terms of Service",
+        "Help Center"
+      ],
+      "social_media": [
+        "Facebook",
+        "Twitter",
+        "Instagram"
+      ]
+    }
+  }
+}

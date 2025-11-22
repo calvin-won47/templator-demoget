@@ -1,0 +1,116 @@
+{
+  "basic": {
+    "app_name": "Vocality",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "voicezo",
+    "seo": {
+      "title": "Vocality - Your Voice Technology Marketplace and Community Hub",
+      "description": "Explore the best in voice technology at Vocality. Connect with experts, discover innovative products, and join a vibrant community.",
+      "keywords": "voice technology, marketplace, community, Vocality, voice solutions, voice commerce"
+    },
+    "hero": {
+      "slogan": "Empower Your Voice Experience",
+      "description": "Join Vocality to unlock the potential of voice technology. Discover, connect, and innovate in an ever-evolving marketplace."
+    }
+  },
+  "extra": {
+    "header": {
+      "menu": [
+        "Home",
+        "Features",
+        "Blog",
+        "Gallery",
+        "Contact Us"
+      ],
+      "cta_button": "Get Started"
+    },
+    "hero": {
+      "image": "hero-image.jpg",
+      "cta_button": "Explore Now"
+    },
+    "blog": {
+      "latest_posts": [
+        "The Future of Voice Technology",
+        "Top 10 Voice Assistants",
+        "How to Leverage Voice in Business"
+      ]
+    },
+    "features": {
+      "highlights": [
+        "Marketplace for Voice Solutions",
+        "Community Forums",
+        "Expert Resources",
+        "Product Reviews"
+      ]
+    },
+    "how_it_works": {
+      "steps": [
+        "Sign Up",
+        "Explore Products",
+        "Join Discussions",
+        "Share Your Insights"
+      ]
+    },
+    "testimonials": {
+      "reviews": [
+        {
+          "name": "John Doe",
+          "feedback": "Vocality transformed how I engage with voice tech!"
+        },
+        {
+          "name": "Jane Smith",
+          "feedback": "A fantastic community for voice enthusiasts!"
+        }
+      ]
+    },
+    "gallery": {
+      "images": [
+        "gallery1.jpg",
+        "gallery2.jpg",
+        "gallery3.jpg"
+      ]
+    },
+    "cta": {
+      "text": "Join Our Community Today!",
+      "button": "Sign Up Free"
+    },
+    "stats": {
+      "users": 5000,
+      "products": 150,
+      "community_posts": 2000
+    },
+    "pricing": {
+      "plans": [
+        {
+          "name": "Basic",
+          "price": "$0/month",
+          "features": [
+            "Access to community",
+            "Limited product listings"
+          ]
+        },
+        {
+          "name": "Pro",
+          "price": "$29/month",
+          "features": [
+            "Full access to marketplace",
+            "Premium resources",
+            "Priority support"
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "links": [
+        "Privacy Policy",
+        "Terms of Service",
+        "Contact Us"
+      ],
+      "social_media": [
+        "Facebook",
+        "Twitter",
+        "LinkedIn"
+      ]
+    }
+  }
+}

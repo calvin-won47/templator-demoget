@@ -1,0 +1,150 @@
+{
+  "basic": {
+    "app_name": "示例应用名称",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "default-site",
+    "gtmId": "GTM-XXXXXX",
+    "seo": {
+      "title": "默认SEO标题",
+      "description": "默认SEO描述",
+      "keywords": "关键词1, 关键词2, 关键词3"
+    },
+    "hero": {
+      "slogan": "这里是站点的Slogan",
+      "description": "这里是Hero区域的详细描述文本。"
+    }
+  },
+  "extra": {
+    "header": {
+      "navigation": [
+        { "name": "Home", "href": "/" },
+        { "name": "Features", "href": "/features" },
+        { "name": "Pricing", "href": "/pricing" },
+        { "name": "About", "href": "/about" },
+        { "name": "Blog", "href": "/blog" },
+        { "name": "Contact", "href": "/contact" }
+      ],
+      "signin_text": "Sign In",
+      "get_started_text": "Get Started"
+    },
+    "hero": {
+      "trust_label": "Trusted by 10,000+ companies",
+      "primary_cta_text": "Start Free Trial",
+      "secondary_cta_text": "Watch Demo"
+    },
+    "blog": {
+      "title": "Blog"
+    },
+    "footer": {
+      "company_description": "Create stunning product demos and presentations that convert visitors into customers. Professional demo creation made simple.",
+      "newsletter_title": "Stay updated",
+      "newsletter_subtitle": "Get the latest news and updates from DemoGet.",
+      "newsletter_button_text": "Subscribe",
+      "copyright_text": "© 2024 DemoGet. All rights reserved.",
+      "links": {
+        "product": [
+          { "name": "Features", "href": "/features" },
+          { "name": "Pricing", "href": "/pricing" },
+          { "name": "Demo Gallery", "href": "/demos" },
+          { "name": "Templates", "href": "/templates" },
+          { "name": "Integrations", "href": "/integrations" }
+        ],
+        "company": [
+          { "name": "About Us", "href": "/about" },
+          { "name": "Careers", "href": "/careers" },
+          { "name": "Press", "href": "/press" },
+          { "name": "Blog", "href": "/blog" },
+          { "name": "Contact", "href": "/contact" }
+        ],
+        "support": [
+          { "name": "Help Center", "href": "/help" },
+          { "name": "Documentation", "href": "/docs" },
+          { "name": "API Reference", "href": "/api" },
+          { "name": "Community", "href": "/community" },
+          { "name": "Status", "href": "/status" }
+        ],
+        "legal": [
+          { "name": "Privacy Policy", "href": "/privacy" },
+          { "name": "Terms of Service", "href": "/terms" },
+          { "name": "Cookie Policy", "href": "/cookies" },
+          { "name": "GDPR", "href": "/gdpr" },
+          { "name": "Security", "href": "/security" }
+        ]
+      }
+    },
+    "features": {
+      "title_line1": "Everything You Need to Create",
+      "title_line2": "Amazing Demos",
+      "description": "Powerful features designed to help you create, customize, and optimize your product demonstrations for maximum impact.",
+      "items": [
+        { "title": "Lightning Fast Setup", "description": "Create professional demos in minutes, not hours.", "image": "https://picsum.photos/400/300?random=2" },
+        { "title": "Customizable Design", "description": "Match your brand perfectly with custom themes, colors, and layouts.", "image": "https://picsum.photos/400/300?random=3" },
+        { "title": "Advanced Analytics", "description": "Track engagement, conversion rates, and user behavior.", "image": "https://picsum.photos/400/300?random=4" },
+        { "title": "Enterprise Security", "description": "Bank-level security with SSO and GDPR compliance.", "image": "https://picsum.photos/400/300?random=5" },
+        { "title": "Mobile Optimized", "description": "Perfect viewing experience across all devices.", "image": "https://picsum.photos/400/300?random=6" },
+        { "title": "Easy Integration", "description": "Embed demos anywhere with simple code snippets.", "image": "https://picsum.photos/400/300?random=7" }
+      ]
+    },
+    "how_it_works": {
+      "title": "How It Works",
+      "description": "Create professional product demos in four simple steps.",
+      "steps": [
+        { "title": "Upload Your Content", "description": "Import your screenshots, videos, or connect to your app.", "image": "https://picsum.photos/300/200?random=8" },
+        { "title": "Customize & Edit", "description": "Add interactions, annotations, and branding.", "image": "https://picsum.photos/300/200?random=9" },
+        { "title": "Publish & Share", "description": "Share via link, embed on your website, or present.", "image": "https://picsum.photos/300/200?random=10" },
+        { "title": "Track Performance", "description": "Monitor engagement with detailed analytics.", "image": "https://picsum.photos/300/200?random=11" }
+      ],
+      "cta_text": "Start Creating Your Demo"
+    },
+    "testimonials": {
+      "title": "Loved by Teams Worldwide",
+      "description": "Join thousands of companies that trust DemoGet to showcase their products and drive conversions.",
+      "items": [
+        { "name": "Sarah Johnson", "role": "VP of Marketing", "company": "TechCorp", "image": "https://picsum.photos/80/80?random=20", "rating": 5, "text": "DemoGet transformed how we showcase our product. Our conversion rates increased by 300%." },
+        { "name": "Michael Chen", "role": "Sales Director", "company": "InnovateLabs", "image": "https://picsum.photos/80/80?random=21", "rating": 5, "text": "The ease of creating professional demos is incredible. Custom demos in minutes." },
+        { "name": "Emily Rodriguez", "role": "Product Manager", "company": "StartupXYZ", "image": "https://picsum.photos/80/80?random=22", "rating": 5, "text": "Explains our complex product simply. Analytics provide valuable insights." }
+      ],
+      "rating_left": "4.9/5",
+      "rating_right": "based on 2,000+ reviews"
+    },
+    "gallery": {
+      "title": "Demo Gallery",
+      "description": "Explore demos created by our community. Get inspired and see what's possible with DemoGet.",
+      "items": [
+        { "title": "SaaS Dashboard Demo", "category": "Software", "image": "https://picsum.photos/400/250?random=12", "views": "2.5K", "duration": "3:45" },
+        { "title": "E-commerce Platform", "category": "Retail", "image": "https://picsum.photos/400/250?random=13", "views": "1.8K", "duration": "2:30" },
+        { "title": "Mobile App Showcase", "category": "Mobile", "image": "https://picsum.photos/400/250?random=14", "views": "3.2K", "duration": "4:15" },
+        { "title": "CRM System Tour", "category": "Business", "image": "https://picsum.photos/400/250?random=15", "views": "1.9K", "duration": "5:20" },
+        { "title": "Analytics Platform", "category": "Data", "image": "https://picsum.photos/400/250?random=16", "views": "2.1K", "duration": "3:10" },
+        { "title": "Design Tool Demo", "category": "Creative", "image": "https://picsum.photos/400/250?random=17", "views": "2.8K", "duration": "4:05" }
+      ],
+      "button_text": "View All Demos"
+    },
+    "cta": {
+      "title_line1": "Ready to Transform Your",
+      "title_line2": "Product Demos?",
+      "description": "Join thousands of companies already using DemoGet to create engaging product demonstrations that convert visitors into customers.",
+      "primary_cta_text": "Start Your Free Trial",
+      "secondary_cta_text": "Schedule a Demo",
+      "bullets": [
+        "✓ 14-day free trial",
+        "✓ No credit card required",
+        "✓ Setup in 5 minutes"
+      ]
+    },
+    "stats": {
+      "items": [
+        { "value": "10,000+", "label": "Active Users", "description": "Companies trust DemoGet" },
+        { "value": "50M+", "label": "Demo Views", "description": "Demos viewed monthly" },
+        { "value": "300%", "label": "Conversion Boost", "description": "Average increase in sales" },
+        { "value": "4.9/5", "label": "Customer Rating", "description": "Based on 2,000+ reviews" }
+      ]
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "description": "Choose the plan that fits your needs. All plans include our core features with no hidden fees.",
+      "footer_note": "All plans include a 14-day free trial. No credit card required.",
+      "footer_link_text": "View detailed pricing comparison →"
+    }
+  }
+}

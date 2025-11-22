@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正在加载...</title>
+    <script>
+      window.APP_CONFIG = { basic: { app_name: '加载失败', strapi_url: '', strapi_site_slug: 'error' } };
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/config.json', false);
+        xhr.send(null);
+        if (xhr.status === 200) {
+          window.APP_CONFIG = JSON.parse(xhr.responseText);
+        }
+      } catch (e) {}
+      (function(){
+        var id = (window.APP_CONFIG && window.APP_CONFIG.basic && window.APP_CONFIG.basic.gtmId) || 'GTM-58TDPTJ3';
+        if (id && id !== 'GTM-XXXXXX') {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = document.getElementsByTagName('script')[0];
+          var j = document.createElement('script');
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;
+          f.parentNode.insertBefore(j, f);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

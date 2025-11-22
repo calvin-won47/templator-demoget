@@ -1,0 +1,88 @@
+{
+  "basic": {
+    "app_name": "Laughzoid",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "laughzo",
+    "seo": {
+      "title": "Laughzoid - Your Ultimate Online Humour and Comedy Hub",
+      "description": "Dive into a world of laughter with Laughzoid. Explore the best in comedy, memes, and funny videos.",
+      "keywords": "comedy, humour, funny videos, memes, laughzoid"
+    },
+    "hero": {
+      "slogan": "Unleash Your Laughter",
+      "description": "Join Laughzoid for a daily dose of comedy and connect with fellow humor enthusiasts."
+    }
+  },
+  "extra": {
+    "header": {
+      "nav_links": [
+        "Home",
+        "About",
+        "Blog",
+        "Contact"
+      ]
+    },
+    "hero": {
+      "image": "hero-image.jpg",
+      "cta_button": "Join the Fun"
+    },
+    "blog": {
+      "latest_posts": [
+        "Top 10 Jokes of the Month",
+        "The Evolution of Stand-Up Comedy",
+        "Memes That Made Us Laugh"
+      ]
+    },
+    "features": {
+      "feature_list": [
+        "Daily Humor Updates",
+        "Community Engagement",
+        "Exclusive Comedy Content"
+      ]
+    },
+    "how_it_works": {
+      "steps": [
+        "Sign Up",
+        "Explore Content",
+        "Share Your Laughs"
+      ]
+    },
+    "testimonials": {
+      "user_reviews": [
+        "Laughzoid always brightens my day!",
+        "The best place for a good laugh!",
+        "A must-visit for comedy lovers!"
+      ]
+    },
+    "gallery": {
+      "images": [
+        "image1.jpg",
+        "image2.jpg",
+        "image3.jpg"
+      ]
+    },
+    "cta": {
+      "text": "Get Started with Laughzoid Today!",
+      "button": "Sign Up Now"
+    },
+    "stats": {
+      "active_users": 10000,
+      "daily_visits": 5000,
+      "content_pieces": 200
+    },
+    "pricing": {
+      "plans": [
+        "Free",
+        "Premium",
+        "Family"
+      ]
+    },
+    "footer": {
+      "links": [
+        "Privacy Policy",
+        "Terms of Service",
+        "Contact Us"
+      ]
+    }
+  }
+}

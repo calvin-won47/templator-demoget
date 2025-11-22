@@ -1,0 +1,89 @@
+{
+  "basic": {
+    "app_name": "Munchlore",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "munchzo",
+    "seo": {
+      "title": "Munchlore - Your Ultimate Online Food Marketplace and Recipe Hub",
+      "description": "Discover delicious recipes and connect with local food vendors on Munchlore, your go-to online food marketplace.",
+      "keywords": "food marketplace, recipes, online food, local vendors, Munchlore"
+    },
+    "hero": {
+      "slogan": "Savor the Flavor of Local Delights",
+      "description": "Explore a world of culinary creativity with Munchlore, where local vendors bring their best recipes and ingredients to your table."
+    }
+  },
+  "extra": {
+    "header": "Join the Munchlore Community Today!",
+    "hero": {
+      "slogan": "Taste the Difference with Munchlore",
+      "description": "Connecting food lovers with local culinary artisans."
+    },
+    "blog": {
+      "title": "Culinary Inspirations",
+      "description": "Stay updated with the latest food trends, tips, and recipes from our community."
+    },
+    "features": {
+      "title": "Why Choose Munchlore?",
+      "list": [
+        "Connect with local food vendors",
+        "Discover unique recipes",
+        "Easy-to-use marketplace",
+        "Support local businesses"
+      ]
+    },
+    "how_it_works": {
+      "title": "How Munchlore Works",
+      "steps": [
+        "Browse local vendors",
+        "Explore delicious recipes",
+        "Order fresh ingredients",
+        "Enjoy your culinary creations"
+      ]
+    },
+    "testimonials": {
+      "title": "What Our Users Say",
+      "reviews": [
+        "Munchlore has transformed the way I cook!",
+        "I love supporting local vendors while trying new recipes.",
+        "The variety of ingredients is fantastic!"
+      ]
+    },
+    "gallery": {
+      "title": "Feast Your Eyes",
+      "description": "A showcase of mouth-watering dishes created by our community."
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "button": "Join Munchlore Now"
+    },
+    "stats": {
+      "title": "Our Impact",
+      "numbers": [
+        "100+ Local Vendors",
+        "5000+ Recipes",
+        "10,000+ Happy Customers"
+      ]
+    },
+    "pricing": {
+      "title": "Affordable Plans for Everyone",
+      "options": [
+        "Basic Plan: Free",
+        "Premium Plan: $9.99/month"
+      ]
+    },
+    "footer": {
+      "links": [
+        "About Us",
+        "Contact",
+        "Privacy Policy",
+        "Terms of Service"
+      ],
+      "social_media": [
+        "Facebook",
+        "Instagram",
+        "Twitter"
+      ]
+    }
+  }
+}

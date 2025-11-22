@@ -1,0 +1,133 @@
+{
+  "basic": {
+    "app_name": "EcoVerse",
+    "strapi_url": "https://2amcreations.com",
+    "strapi_site_slug": "earthzo",
+    "seo": {
+      "title": "EcoVerse - Your Marketplace for Sustainable Living",
+      "description": "Discover EcoVerse, the premier marketplace for sustainable living products. Join us in making eco-friendly choices today!",
+      "keywords": "sustainable living, eco-friendly products, green marketplace, EcoVerse"
+    },
+    "hero": {
+      "slogan": "Live Sustainably, Shop Responsibly",
+      "description": "Explore a curated selection of eco-friendly products designed to help you live a more sustainable lifestyle."
+    }
+  },
+  "extra": {
+    "header": {
+      "navigation": [
+        "Home",
+        "Shop",
+        "Blog",
+        "About Us",
+        "Contact"
+      ],
+      "cta": "Join the Movement"
+    },
+    "hero": {
+      "image": "path/to/hero-image.jpg",
+      "cta_button": "Shop Now"
+    },
+    "blog": {
+      "title": "Insights on Sustainable Living",
+      "posts": [
+        {
+          "title": "10 Tips for Reducing Your Carbon Footprint",
+          "link": "/blog/reduce-carbon-footprint"
+        },
+        {
+          "title": "The Benefits of Buying Local",
+          "link": "/blog/benefits-of-buying-local"
+        }
+      ]
+    },
+    "features": {
+      "title": "Why Choose EcoVerse?",
+      "items": [
+        "Curated Eco-Friendly Products",
+        "Support Local Artisans",
+        "Sustainable Packaging",
+        "Community Engagement"
+      ]
+    },
+    "how_it_works": {
+      "title": "How EcoVerse Works",
+      "steps": [
+        "Browse our collection of sustainable products.",
+        "Choose your favorites and add them to your cart.",
+        "Checkout securely and enjoy eco-friendly shipping."
+      ]
+    },
+    "testimonials": {
+      "title": "What Our Customers Say",
+      "reviews": [
+        {
+          "name": "Jane D.",
+          "comment": "EcoVerse has transformed the way I shop! I love supporting sustainable brands."
+        },
+        {
+          "name": "Mark S.",
+          "comment": "The products are amazing and the service is top-notch. Highly recommend!"
+        }
+      ]
+    },
+    "gallery": {
+      "title": "Our Products in Action",
+      "images": [
+        "path/to/image1.jpg",
+        "path/to/image2.jpg",
+        "path/to/image3.jpg"
+      ]
+    },
+    "cta": {
+      "title": "Join the EcoVerse Community",
+      "button_text": "Sign Up Now"
+    },
+    "stats": {
+      "title": "Our Impact",
+      "numbers": [
+        {
+          "label": "Products Sold",
+          "value": "10,000+"
+        },
+        {
+          "label": "Trees Planted",
+          "value": "5,000"
+        }
+      ]
+    },
+    "pricing": {
+      "title": "Affordable Eco-Friendly Choices",
+      "plans": [
+        {
+          "name": "Basic Plan",
+          "price": "$19.99/month",
+          "features": [
+            "Access to exclusive products",
+            "Monthly newsletter"
+          ]
+        },
+        {
+          "name": "Premium Plan",
+          "price": "$29.99/month",
+          "features": [
+            "All Basic features",
+            "Free shipping on orders over $50"
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "links": [
+        "Privacy Policy",
+        "Terms of Service",
+        "Contact Us"
+      ],
+      "social_media": [
+        "Facebook",
+        "Instagram",
+        "Twitter"
+      ]
+    }
+  }
+}
