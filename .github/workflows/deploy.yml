@@ -94,11 +94,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.BAOTA_SSH_PRIVATE_KEY }}
 
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.BAOTA_SSH_PRIVATE_KEY }}
-
       - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
@@ -146,40 +141,36 @@ jobs:
           CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
           if [ -n "$CONFIG_CONTENT" ]; then
             echo "Remote config.json found"
-            node -e '
-              const fs = require("fs")
-              const cfg = JSON.parse(process.env.CONFIG_CONTENT)
-              const basic = cfg.basic || {}
-              const envs = {
-                SITE_URL: process.env.SITE_URL_IN || "",
-                strapi_url: basic.strapi_url || "",
-                strapi_site_slug: basic.strapi_site_slug || ""
-              }
-              for (const [k,v] of Object.entries(envs)) {
-                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
-              }
-            ' GITHUB_ENV="$GITHUB_ENV" CONFIG_CONTENT="$CONFIG_CONTENT" SITE_URL_IN="${{ matrix.site.url }}"
+            export CONFIG_CONTENT
+            export SITE_URL_IN="${{ matrix.site.url }}"
+            python3 - << 'PY'
+import os, json
+cfg = json.loads(os.environ['CONFIG_CONTENT'])
+basic = cfg.get('basic',{})
+with open(os.environ['GITHUB_ENV'],'a') as f:
+    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
+    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
+    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
+PY
           else
             echo "Remote config.json not found, fallback to public/config.json"
-            node -e '
-              const fs = require("fs")
-              const cfg = JSON.parse(fs.readFileSync("public/config.json","utf8"))
-              const basic = cfg.basic || {}
-              const envs = {
-                SITE_URL: process.env.SITE_URL_IN || "",
-                strapi_url: basic.strapi_url || "",
-                strapi_site_slug: basic.strapi_site_slug || ""
-              }
-              for (const [k,v] of Object.entries(envs)) {
-                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
-              }
-            ' GITHUB_ENV="$GITHUB_ENV" SITE_URL_IN="${{ matrix.site.url }}"
+            export SITE_URL_IN="${{ matrix.site.url }}"
+            python3 - << 'PY'
+import os, json
+with open('public/config.json','r') as fh:
+    cfg = json.load(fh)
+basic = cfg.get('basic',{})
+with open(os.environ['GITHUB_ENV'],'a') as f:
+    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
+    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
+    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
+PY
           fi
 
       - name: Generate sitemap.xml and robots.txt
         run: node scripts/generate-sitemap.mjs
         env:
-          SITE_URL: ${{ env.SITE_URL }}
+          SITE_URL: ${{ matrix.site.url }}
           strapi_url: ${{ env.strapi_url }}
           strapi_site_slug: ${{ env.strapi_site_slug }}
           STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
@@ -236,41 +227,37 @@ jobs:
           CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
           if [ -n "$CONFIG_CONTENT" ]; then
             echo "Remote config.json found"
-            node -e '
-              const fs = require("fs")
-              const cfg = JSON.parse(process.env.CONFIG_CONTENT)
-              const basic = cfg.basic || {}
-              const envs = {
-                SITE_URL: process.env.SITE_URL_IN || "",
-                strapi_url: basic.strapi_url || "",
-                strapi_site_slug: basic.strapi_site_slug || ""
-              }
-              for (const [k,v] of Object.entries(envs)) {
-                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
-              }
-            ' GITHUB_ENV="$GITHUB_ENV" CONFIG_CONTENT="$CONFIG_CONTENT" SITE_URL_IN="${{ inputs.target_site_url }}"
+            export CONFIG_CONTENT
+            export SITE_URL_IN="${{ inputs.target_site_url }}"
+            python3 - << 'PY'
+import os, json
+cfg = json.loads(os.environ['CONFIG_CONTENT'])
+basic = cfg.get('basic',{})
+with open(os.environ['GITHUB_ENV'],'a') as f:
+    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
+    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
+    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
+PY
           else
             echo "Remote config.json not found, fallback to public/config.json"
-            node -e '
-              const fs = require("fs")
-              const cfg = JSON.parse(fs.readFileSync("public/config.json","utf8"))
-              const basic = cfg.basic || {}
-              const envs = {
-                SITE_URL: process.env.SITE_URL_IN || "",
-                strapi_url: basic.strapi_url || "",
-                strapi_site_slug: basic.strapi_site_slug || ""
-              }
-              for (const [k,v] of Object.entries(envs)) {
-                fs.appendFileSync(process.env.GITHUB_ENV, `${k}=${v}\n`)
-              }
-            ' GITHUB_ENV="$GITHUB_ENV" SITE_URL_IN="${{ inputs.target_site_url }}"
+            export SITE_URL_IN="${{ inputs.target_site_url }}"
+            python3 - << 'PY'
+import os, json
+with open('public/config.json','r') as fh:
+    cfg = json.load(fh)
+basic = cfg.get('basic',{})
+with open(os.environ['GITHUB_ENV'],'a') as f:
+    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
+    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
+    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
+PY
           fi
 
       - name: Generate sitemap.xml and robots.txt (if target_site_url provided)
         if: ${{ inputs.target_site_url != '' }}
         run: node scripts/generate-sitemap.mjs
         env:
-          SITE_URL: ${{ env.SITE_URL }}
+          SITE_URL: ${{ inputs.target_site_url }}
           strapi_url: ${{ env.strapi_url }}
           strapi_site_slug: ${{ env.strapi_site_slug }}
           STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
