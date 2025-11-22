@@ -141,30 +141,18 @@ jobs:
           CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
           if [ -n "$CONFIG_CONTENT" ]; then
             echo "Remote config.json found"
-            export CONFIG_CONTENT
-            export SITE_URL_IN="${{ matrix.site.url }}"
-            python3 - << 'PY'
-import os, json
-cfg = json.loads(os.environ['CONFIG_CONTENT'])
-basic = cfg.get('basic',{})
-with open(os.environ['GITHUB_ENV'],'a') as f:
-    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
-    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
-    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
-PY
+            STRAPI_URL=$(printf '%s' "$CONFIG_CONTENT" | jq -r '.basic.strapi_url // ""')
+            STRAPI_SLUG=$(printf '%s' "$CONFIG_CONTENT" | jq -r '.basic.strapi_site_slug // ""')
+            echo "SITE_URL=${{ matrix.site.url }}" >> "$GITHUB_ENV"
+            echo "strapi_url=$STRAPI_URL" >> "$GITHUB_ENV"
+            echo "strapi_site_slug=$STRAPI_SLUG" >> "$GITHUB_ENV"
           else
             echo "Remote config.json not found, fallback to public/config.json"
-            export SITE_URL_IN="${{ matrix.site.url }}"
-            python3 - << 'PY'
-import os, json
-with open('public/config.json','r') as fh:
-    cfg = json.load(fh)
-basic = cfg.get('basic',{})
-with open(os.environ['GITHUB_ENV'],'a') as f:
-    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
-    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
-    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
-PY
+            STRAPI_URL=$(jq -r '.basic.strapi_url // ""' public/config.json)
+            STRAPI_SLUG=$(jq -r '.basic.strapi_site_slug // ""' public/config.json)
+            echo "SITE_URL=${{ matrix.site.url }}" >> "$GITHUB_ENV"
+            echo "strapi_url=$STRAPI_URL" >> "$GITHUB_ENV"
+            echo "strapi_site_slug=$STRAPI_SLUG" >> "$GITHUB_ENV"
           fi
 
       - name: Generate sitemap.xml and robots.txt
@@ -227,30 +215,18 @@ PY
           CONFIG_CONTENT=$(ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "cat $REMOTE_PATH" || true)
           if [ -n "$CONFIG_CONTENT" ]; then
             echo "Remote config.json found"
-            export CONFIG_CONTENT
-            export SITE_URL_IN="${{ inputs.target_site_url }}"
-            python3 - << 'PY'
-import os, json
-cfg = json.loads(os.environ['CONFIG_CONTENT'])
-basic = cfg.get('basic',{})
-with open(os.environ['GITHUB_ENV'],'a') as f:
-    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
-    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
-    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
-PY
+            STRAPI_URL=$(printf '%s' "$CONFIG_CONTENT" | jq -r '.basic.strapi_url // ""')
+            STRAPI_SLUG=$(printf '%s' "$CONFIG_CONTENT" | jq -r '.basic.strapi_site_slug // ""')
+            echo "SITE_URL=${{ inputs.target_site_url }}" >> "$GITHUB_ENV"
+            echo "strapi_url=$STRAPI_URL" >> "$GITHUB_ENV"
+            echo "strapi_site_slug=$STRAPI_SLUG" >> "$GITHUB_ENV"
           else
             echo "Remote config.json not found, fallback to public/config.json"
-            export SITE_URL_IN="${{ inputs.target_site_url }}"
-            python3 - << 'PY'
-import os, json
-with open('public/config.json','r') as fh:
-    cfg = json.load(fh)
-basic = cfg.get('basic',{})
-with open(os.environ['GITHUB_ENV'],'a') as f:
-    f.write('SITE_URL='+os.environ.get('SITE_URL_IN','')+'\n')
-    f.write('strapi_url='+str(basic.get('strapi_url',''))+'\n')
-    f.write('strapi_site_slug='+str(basic.get('strapi_site_slug',''))+'\n')
-PY
+            STRAPI_URL=$(jq -r '.basic.strapi_url // ""' public/config.json)
+            STRAPI_SLUG=$(jq -r '.basic.strapi_site_slug // ""' public/config.json)
+            echo "SITE_URL=${{ inputs.target_site_url }}" >> "$GITHUB_ENV"
+            echo "strapi_url=$STRAPI_URL" >> "$GITHUB_ENV"
+            echo "strapi_site_slug=$STRAPI_SLUG" >> "$GITHUB_ENV"
           fi
 
       - name: Generate sitemap.xml and robots.txt (if target_site_url provided)
