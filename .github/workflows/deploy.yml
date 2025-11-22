@@ -122,7 +122,7 @@ jobs:
           fi
           ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "mkdir -p $REMOTE_PATH"
           if [ -f "$LOCAL_CFG" ]; then
-            rsync -avzr "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:"$REMOTE_PATH"/config.json
+            rsync -avzr --inplace --no-perms --no-owner --no-group "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:"$REMOTE_PATH"/config.json || scp -q "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:"$REMOTE_PATH"/config.json || true
           else
             echo "Generated config not found: $LOCAL_CFG"
           fi
@@ -134,7 +134,7 @@ jobs:
           LOCAL_CFG="generated-configs/${DOMAIN}/config.json"
           ssh ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }} "mkdir -p ${{ matrix.site.path }}"
           if [ -f "$LOCAL_CFG" ]; then
-            rsync -avzr "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ matrix.site.path }}/config.json
+            rsync -avzr --inplace --no-perms --no-owner --no-group "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ matrix.site.path }}/config.json || scp -q "$LOCAL_CFG" ${{ secrets.BAOTA_SSH_USER }}@${{ secrets.BAOTA_SERVER_IP }}:${{ matrix.site.path }}/config.json || true
           else
             echo "Generated config not found: $LOCAL_CFG"
           fi
