@@ -163,6 +163,13 @@ jobs:
           strapi_site_slug: ${{ env.strapi_site_slug }}
           STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
 
+      - name: Generate blog route fallbacks
+        run: node scripts/generate-blog-fallbacks.mjs
+        env:
+          strapi_url: ${{ env.strapi_url }}
+          strapi_site_slug: ${{ env.strapi_site_slug }}
+          STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+
       - name: Deploy to ${{ matrix.site.path }} via rsync
         run: |
           rsync -rlDz \
@@ -234,6 +241,13 @@ jobs:
         run: node scripts/generate-sitemap.mjs
         env:
           SITE_URL: ${{ inputs.target_site_url }}
+          strapi_url: ${{ env.strapi_url }}
+          strapi_site_slug: ${{ env.strapi_site_slug }}
+          STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+
+      - name: Generate blog route fallbacks
+        run: node scripts/generate-blog-fallbacks.mjs
+        env:
           strapi_url: ${{ env.strapi_url }}
           strapi_site_slug: ${{ env.strapi_site_slug }}
           STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
